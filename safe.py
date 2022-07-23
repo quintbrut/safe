@@ -51,10 +51,12 @@ def getSafeData():
 
 def safeControl(action, token, amount):
     urlControl = 'https://pacan.mobi/index.php?r=property/safe'
+    if amount > 1:
+        amount = amount // 2
     form = {
         'token': token,
         'currency': 'money_r',
-        'amount': amount//2,
+        'amount': amount,
     }
 
     if action == 'put':
