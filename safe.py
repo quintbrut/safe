@@ -54,7 +54,7 @@ def safeControl(action, token, amount):
     form = {
         'token': token,
         'currency': 'money_r',
-        'amount': amount,
+        'amount': amount//2,
     }
 
     if action == 'put':
@@ -86,7 +86,7 @@ def unlimitedSafer():
 def main():
     print('Starting ...')
     login('weakjoker5', '7shokpar7')
-    for _ in range(15):
+    for _ in range(25):
         threading.Thread(target=unlimitedSafer).start()
 
 
