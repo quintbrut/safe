@@ -1,0 +1,101 @@
+import random
+import threading
+
+import requests
+from bs4 import BeautifulSoup as bs
+# Создаем сессию пользователя
+user = requests.Session()
+# Браузер пользователя
+userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/5360 (KHTML, like Gecko) Chrome/37.0.890.0 Mobile Safari/5360'
+
+user.headers = {
+    'user-agent': userAgent
+}
+PUT = 'put'
+TAKE = 'take'
+# Ссылки
+url = 'https://pacan.mobi'
+
+
+def login(userLogin, password):
+    """
+    Функция авторизации
+    """
+    loginData = {
+        'login': userLogin,
+        'password': password
+    }
+
+    # Жмем кнопку авторизоваться с данными введенными ранее
+    user.post(url + '/index.php?r=site/auth/', data=loginData)
+    print('Авторизованы под ником ', userLogin)
+
+
+def getSafeData():
+    safe_url = 'https://pacan.mobi/index.php?r=property/safe'
+    safe_page = user.get(safe_url)
+    soup = bs(safe_page.content, "lxml")
+    in_safe = int(
+        soup.find('div', class_="center font14 bold").find('img', alt='доценты').findParent().getText().strip())
+    token = soup.find('input', attrs={'type': 'hidden', 'name': 'token'})['value']
+    in_pocket = int(soup.find('span', id='res-docents').getText().strip())
+    print('В сейфе: ', in_safe)
+    print('В кармане: ', in_pocket)
+    print('Токен: ', token)
+    return {
+        'in_safe': in_safe,
+        'in_pocket': in_pocket,
+        'token': token,
+    }
+
+
+def safeControl(action, token, amount):
+    urlControl = 'https://pacan.mobi/index.php?r=property/safe'
+    form = {
+        'token': token,
+        'currency': 'money_r',
+        'amount': amount,
+    }
+
+    if action == 'put':
+        form.update({'put': ''})
+        print('Положим {0} доц'.format(amount))
+    if action == 'take':
+        form.update({'take': ''})
+        print('Заберем {0} доц'.format(amount))
+    user.post(urlControl, data=form)
+
+
+def oneIteration():
+    try:
+        data = getSafeData()
+        if data['in_pocket'] > 0:
+            safeControl(PUT, data['token'], data['in_pocket'])
+        elif data['in_safe'] > 0:
+            safeControl(TAKE, data['token'], data['in_safe'])
+    except Exception as e:
+        print('Ошибка:', e)
+
+
+def unlimitedSafer():
+    while True:
+        print('Working ...')
+        oneIteration()
+
+
+def main():
+    print('Starting ...')
+    login('weakjoker5', '7shokpar7')
+    for _ in range(15):
+        threading.Thread(target=unlimitedSafer).start()
+
+
+def test():
+    login('weakjoker5', '7shokpar7')
+    for _ in range(4):
+        oneIteration()
+
+
+if __name__ == '__main__':
+    main()
+    # test()
