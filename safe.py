@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as bs
 # Создаем сессию пользователя
 user = requests.Session()
 # Браузер пользователя
-userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/5360 (KHTML, like Gecko) Chrome/37.0.890.0 Mobile Safari/5360'
+userAgent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
 
 user.headers = {
     'user-agent': userAgent
@@ -80,6 +80,7 @@ def oneIteration():
 
 
 def unlimitedSafer():
+    time.sleep(5)
     while True:
         print('Working ...')
         oneIteration()
@@ -88,7 +89,7 @@ def unlimitedSafer():
 def main():
     print('Starting ...')
     login('weakjoker5', '7shokpar7')
-    for _ in range(125):
+    for _ in range(100):
         threading.Thread(target=unlimitedSafer).start()
 
 
