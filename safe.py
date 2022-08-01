@@ -65,7 +65,7 @@ def safeControl(action, token, amount):
     if action == 'take':
         form.update({'take': ''})
         print('Заберем {0} доц'.format(amount))
-    for x in range(10):
+    for x in range(3):
         user.post(urlControl, data=form)
 
 
