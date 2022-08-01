@@ -3,6 +3,7 @@ import threading
 import time
 import requests
 from bs4 import BeautifulSoup as bs
+from fake_useragent import UserAgent
 # Создаем сессию пользователя
 user = requests.Session()
 # Браузер пользователя
@@ -17,7 +18,7 @@ TAKE = 'take'
 url = 'https://pacan.mobi'
 
 
-def login(userLogin, password):
+def login(userLogin, password, session):
     """
     Функция авторизации
     """
@@ -27,13 +28,13 @@ def login(userLogin, password):
     }
 
     # Жмем кнопку авторизоваться с данными введенными ранее
-    user.post(url + '/index.php?r=site/auth/', data=loginData)
+    session.post(url + '/index.php?r=site/auth/', data=loginData)
     print('Авторизованы под ником ', userLogin)
 
 
-def getSafeData():
+def getSafeData(session):
     safe_url = 'https://pacan.mobi/index.php?r=property/safe'
-    safe_page = user.get(safe_url)
+    safe_page = session.get(safe_url)
     soup = bs(safe_page.content, "lxml")
     in_safe = int(
         soup.find('div', class_="center font14 bold").find('img', alt='доценты').findParent().getText().strip())
@@ -49,7 +50,7 @@ def getSafeData():
     }
 
 
-def safeControl(action, token, amount):
+def safeControl(action, token, amount,session):
     urlControl = 'https://pacan.mobi/index.php?r=property/safe'
     # if amount > 1:
     #     amount = amount // 2
@@ -66,30 +67,37 @@ def safeControl(action, token, amount):
         form.update({'take': ''})
         print('Заберем {0} доц'.format(amount))
     for x in range(3):
-        user.post(urlControl, data=form)
+        session.post(urlControl, data=form)
 
 
-def oneIteration():
+def oneIteration(session):
     try:
-        data = getSafeData()
+        data = getSafeData(session)
         if data['in_pocket'] > 0:
-            safeControl(PUT, data['token'], data['in_pocket'])
+            safeControl(PUT, data['token'], data['in_pocket'], session)
         elif data['in_safe'] > 0:
-            safeControl(TAKE, data['token'], data['in_safe'])
+            safeControl(TAKE, data['token'], data['in_safe'], session)
     except Exception as e:
         print('Ошибка:', e)
 
 
 def unlimitedSafer():
-    time.sleep(5)
+    print('Add new session')
+    session = requests.Session()
+    ua = UserAgent()
+    ua_fake = ua.chrome
+    session.headers = {
+        'user-agent': ua_fake
+    }
+    login('weakjoker5', '7shokpar7', session)
+    print('Add auth on ', ua_fake)
     while True:
         print('Working ...')
-        oneIteration()
+        oneIteration(session)
 
 
 def main():
     print('Starting ...')
-    login('weakjoker5', '7shokpar7')
     for _ in range(1):
         threading.Thread(target=unlimitedSafer).start()
 
