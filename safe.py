@@ -89,7 +89,7 @@ def unlimitedSafer():
 def main():
     print('Starting ...')
     login('weakjoker5', '7shokpar7')
-    for _ in range(40):
+    for _ in range(200):
         threading.Thread(target=unlimitedSafer).start()
 
 
