@@ -66,8 +66,8 @@ def safeControl(action, token, amount,session):
     if action == 'take':
         form.update({'take': ''})
         print('Заберем {0} доц'.format(amount))
-    for x in range(3):
-        session.post(urlControl, data=form)
+    
+    session.post(urlControl, data=form)
 
 
 def oneIteration(session):
@@ -98,7 +98,7 @@ def unlimitedSafer():
 
 def main():
     print('Starting ...')
-    for _ in range(1):
+    for _ in range(25):
         threading.Thread(target=unlimitedSafer).start()
 
 
