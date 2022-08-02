@@ -98,7 +98,7 @@ def unlimitedSafer():
 
 def main():
     print('Starting ...')
-    for _ in range(25):
+    for _ in range(125):
         threading.Thread(target=unlimitedSafer).start()
 
 
