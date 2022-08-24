@@ -39,7 +39,7 @@ def getSafeData(session):
     in_safe = int(
         soup.find('div', class_="center font14 bold").find('img', alt='доценты').findParent().getText().strip().replace(' ',''))
     token = soup.find('input', attrs={'type': 'hidden', 'name': 'token'})['value']
-    in_pocket = int(soup.find('span', id='res-docents').getText().strip())
+    in_pocket = int(soup.find('span', id='res-docents').getText().strip().replace(' ',''))
     print('В сейфе: ', in_safe)
     print('В кармане: ', in_pocket)
     print('Токен: ', token)
