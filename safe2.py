@@ -37,9 +37,9 @@ def getSafeData(session):
     safe_page = session.get(safe_url)
     soup = bs(safe_page.content, "lxml")
     in_safe = int(float(
-        soup.find('div', class_="center font14 bold").find('img', alt='доценты').findParent().getText().strip().replace(' ','').replace(u'\xa0', ' ')))
+        soup.find('div', class_="center font14 bold").find('img', alt='доценты').findParent().getText().strip().replace(u'\xa0', '')))
     token = soup.find('input', attrs={'type': 'hidden', 'name': 'token'})['value']
-    in_pocket = int(float(soup.find('span', id='res-docents').getText().strip().replace(' ','').replace(u'\xa0', ' ')))
+    in_pocket = int(float(soup.find('span', id='res-docents').getText().strip().replace(u'\xa0', '')))
     print('В сейфе: ', in_safe)
     print('В кармане: ', in_pocket)
     print('Токен: ', token)
