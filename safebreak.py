@@ -4,9 +4,7 @@ import time
 import requests
 from bs4 import BeautifulSoup as bs
 from fake_useragent import UserAgent
-# Создаем сессию пользователя
 user = requests.Session()
-# Браузер пользователя
 userAgent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
 
 user.headers = {
@@ -37,9 +35,9 @@ def getSafeData(session):
     safe_page = session.get(safe_url)
     soup = bs(safe_page.content, "lxml")
     in_safe = int(float(
-        soup.find('div', class_="center font14 bold").find('img', alt='доценты').findParent().getText().strip().replace(u'\xa0', '').replace('k','000')))
+        soup.find('div', class_="center font14 bold").find('img', alt='доценты').findParent().getText().strip().replace(u'\xa0', '')))
     token = soup.find('input', attrs={'type': 'hidden', 'name': 'token'})['value']
-    in_pocket = int(float(soup.find('span', id='res-docents').getText().strip().replace(u'\xa0', '').replace('k','000')))
+    in_pocket = int(float(soup.find('span', id='res-docents').getText().strip().replace(u'\xa0', '')))
     print('В сейфе: ', in_safe)
     print('В кармане: ', in_pocket)
     print('Токен: ', token)
@@ -52,8 +50,6 @@ def getSafeData(session):
 
 def safeControl(action, token, amount,session):
     urlControl = 'https://pacan.mobi/index.php?r=property/safe'
-    # if amount > 1:
-    #     amount = amount // 2
     form = {
         'token': token,
         'currency': 'money_r',
@@ -89,7 +85,7 @@ def unlimitedSafer():
     session.headers = {
         'user-agent': ua_fake
     }
-    login('Доставалка', '22rafaelka23', session)
+    login('', '', session)
     print('Add auth on ', ua_fake)
     while True:
         print('Working ...')
@@ -97,13 +93,13 @@ def unlimitedSafer():
 
 
 def main():
-    print('Starting ...')
+    print('Starting on 20 threads...')
     for _ in range(20):
         threading.Thread(target=unlimitedSafer).start()
 
 
 def test():
-    login('Доставалка', '22rafaelka23')
+    login('', '')
     for _ in range(4):
         oneIteration()
 
