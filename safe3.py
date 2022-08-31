@@ -73,10 +73,11 @@ def safeControl(action, token, amount,session):
 def oneIteration(session):
     try:
         data = getSafeData(session)
-        if data['in_pocket'] >= 10000:
+        print('data', data)
+        if data['in_pocket'] >= 9999:
             print('PUT!')
             safeControl(PUT, data['token'], data['in_pocket'], session)
-        elif data['in_safe'] >= 10000:
+        elif data['in_safe'] >= 9999:
             print("TAKE!")
             safeControl(TAKE, data['token'], data['in_safe'], session)
     except Exception as e:
