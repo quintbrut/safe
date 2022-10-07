@@ -92,7 +92,7 @@ def unlimitedSafer():
     session.headers = {
         'user-agent': ua_fake
     }
-    login('Доставалка', '22rafaelka23', session)
+    login('weakjoker5', '7shokpar7', session)
     print('Add auth on ', ua_fake)
     while True:
         print('Working ...')
@@ -106,7 +106,7 @@ def main():
 
 
 def test():
-    login('Доставалка', '22rafaelka23')
+    login('weakjoker5', '7shokpar7')
     for _ in range(4):
         oneIteration()
 
