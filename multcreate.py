@@ -81,7 +81,7 @@ user.headers = {
 isAllowedToBuyEnergy = True
 
 #Ссылки
-url = 'https://pacan.mobi'
+url = 'https://HATA.mobi'
 randomAttackUrl = url + '/index.php?r=crop/attackRandom'
 urlToLight = url + '/index.php?r=site/layout&layout=light'
 urlToDefault = url + '/index.php?r=site/layout&layout=default'
