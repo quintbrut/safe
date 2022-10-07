@@ -4,7 +4,6 @@ from datetime import datetime
 
 listOfMuls = []
 listOfAdjectives = [
-	'jealous',
 	'bold',
 	'spoilt ',
 	'naughty ',
