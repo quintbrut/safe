@@ -101,7 +101,7 @@ def unlimitedSafer():
 
 def main():
     print('Starting ...')
-    for _ in range(20):
+    for _ in range(10):
         threading.Thread(target=unlimitedSafer).start()
 
 
