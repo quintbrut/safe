@@ -4,7 +4,6 @@ from datetime import datetime
 
 listOfMuls = []
 listOfAdjectives = [
-	'bold',
 	'spoilt ',
 	'naughty ',
 	'suspicious ',
@@ -81,7 +80,7 @@ user.headers = {
 isAllowedToBuyEnergy = True
 
 #Ссылки
-url = 'https://HATA.mobi'
+url = 'https://hata.mobi'
 randomAttackUrl = url + '/index.php?r=crop/attackRandom'
 urlToLight = url + '/index.php?r=site/layout&layout=light'
 urlToDefault = url + '/index.php?r=site/layout&layout=default'
